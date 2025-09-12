@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary-blue: 210 100% 20%;
+    --accent-orange: 24 100% 50%;
+    --golden-yellow: 48 100% 50%;
+    
+    --background: 210 100% 20%;
+    --foreground: 0 0% 98%;
+    --card: 210 50% 25%;
+    --card-foreground: 0 0% 98%;
+    --popover: 210 50% 25%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 24 100% 50%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 48 100% 50%;
+    --secondary-foreground: 210 100% 20%;
+    --muted: 210 30% 35%;
+    --muted-foreground: 0 0% 80%;
+    --accent: 48 100% 50%;
+    --accent-foreground: 210 100% 20%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 210 30% 35%;
+    --input: 210 30% 35%;
+    --ring: 24 100% 50%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-roboto;
+    font-family: 'Roboto', sans-serif;
+  }
+}
+
+@layer utilities {
+  .activity-ring {
+    @apply rounded-full border-4 border-muted relative;
+  }
+  
+  .activity-ring-filled {
+    @apply absolute inset-0 rounded-full border-4 border-transparent;
+    background: conic-gradient(from 0deg, hsl(var(--primary)) 0%, hsl(var(--primary)) var(--progress, 0%), transparent var(--progress, 0%));
+    mask: radial-gradient(circle, transparent 50%, black 50%);
+  }
+  
+  .sport-gradient-cricket {
+    background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+  }
+  
+  .sport-gradient-basketball {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  }
+  
+  .sport-gradient-badminton {
+    background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+  }
+  
+  .sport-gradient-athletics {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  }
+  
+  .sport-gradient-longjump {
+    background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+  }
+  
+  .sport-gradient-highjump {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  }
+}
+
+.font-roboto {
+  font-family: 'Roboto', sans-serif;
+}
