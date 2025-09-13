@@ -1,34 +1,44 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --primary-blue: 210 100% 20%;
-    --accent-orange: 24 100% 50%;
-    --golden-yellow: 48 100% 50%;
-    
-    --background: 210 100% 20%;
-    --foreground: 0 0% 98%;
-    --card: 210 50% 25%;
-    --card-foreground: 0 0% 98%;
-    --popover: 210 50% 25%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 24 100% 50%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 48 100% 50%;
-    --secondary-foreground: 210 100% 20%;
-    --muted: 210 30% 35%;
-    --muted-foreground: 0 0% 80%;
-    --accent: 48 100% 50%;
-    --accent-foreground: 210 100% 20%;
+    --background: 232 35% 12%; /* Dark Space Blue */
+    --foreground: 220 20% 90%; /* Light Gray */
+
+    --card: 230 30% 15%; /* Slightly Lighter Blue Card */
+    --card-foreground: 220 20% 90%;
+
+    --popover: 232 35% 12%;
+    --popover-foreground: 220 20% 90%;
+
+    --primary: 260 100% 70%; /* Vibrant Purple */
+    --primary-foreground: 220 20% 98%;
+
+    --secondary: 180 100% 50%; /* Bright Cyan */
+    --secondary-foreground: 232 35% 12%;
+
+    --muted: 230 25% 30%;
+    --muted-foreground: 220 15% 60%;
+
+    --accent: 260 100% 75%;
+    --accent-foreground: 232 35% 12%;
+
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 210 30% 35%;
-    --input: 210 30% 35%;
-    --ring: 24 100% 50%;
-    --radius: 0.75rem;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 230 20% 25%;
+    --input: 230 30% 20%;
+    --ring: 260 100% 75%;
+
+    --radius: 1rem;
+
+    --xp: 50 100% 60%; /* Gold */
+    --coin: 45 90% 55%; /* Bright Yellow */
+
+    --brand-purple: 260 100% 70%;
+    --brand-cyan: 180 100% 50%;
   }
 }
 
@@ -37,47 +47,38 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-roboto;
-    font-family: 'Roboto', sans-serif;
+    @apply bg-background text-foreground font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold;
   }
 }
 
 @layer utilities {
-  .activity-ring {
-    @apply rounded-full border-4 border-muted relative;
+  .text-glow {
+    text-shadow: 0 0 8px hsl(var(--primary) / 0.8), 0 0 20px hsl(var(--primary) / 0.5);
   }
-  
-  .activity-ring-filled {
-    @apply absolute inset-0 rounded-full border-4 border-transparent;
-    background: conic-gradient(from 0deg, hsl(var(--primary)) 0%, hsl(var(--primary)) var(--progress, 0%), transparent var(--progress, 0%));
-    mask: radial-gradient(circle, transparent 50%, black 50%);
+  .text-glow-secondary {
+    text-shadow: 0 0 8px hsl(var(--secondary) / 0.8), 0 0 20px hsl(var(--secondary) / 0.5);
   }
-  
-  .sport-gradient-cricket {
-    background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.5) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.5) 1px, transparent 1px);
+    background-size: 40px 40px;
   }
-  
-  .sport-gradient-basketball {
-    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-  }
-  
-  .sport-gradient-badminton {
-    background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
-  }
-  
-  .sport-gradient-athletics {
-    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
-  }
-  
-  .sport-gradient-longjump {
-    background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
-  }
-  
-  .sport-gradient-highjump {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  .bg-hero-gradient {
+    background: radial-gradient(ellipse 80% 50% at 50% -20%, hsl(var(--primary) / 0.3), transparent);
   }
 }
 
-.font-roboto {
-  font-family: 'Roboto', sans-serif;
+.swiper-pagination-bullet {
+  background-color: hsl(var(--muted-foreground)) !important;
+  opacity: 0.5;
+  transition: all 0.2s ease;
+}
+.swiper-pagination-bullet-active {
+  background-color: hsl(var(--primary)) !important;
+  opacity: 1;
+  transform: scale(1.2);
 }

@@ -1,203 +1,69 @@
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { User } from '@/types';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Zap, Coins, Calendar, Trophy, User as UserIcon } from 'lucide-react';
+import React from 'react';
+import { useAppStore } from '@/store/appStore';
+import { Screen } from './common/Screen';
+import { GamifiedButton } from './ui/GamifiedButton';
+import { GamifiedCard } from './ui/GamifiedCard';
+import { badges } from '@/data/badges';
+import { sports } from '@/data/sports';
+import { baseAvatars } from '@/data/avatars';
+import { LevelBar } from './ui/LevelBar';
+import { Flame, BarChart, Award } from 'lucide-react';
 
-interface ProfileScreenProps {
-  user: User;
-  onBack: () => void;
-}
+export const ProfileScreen: React.FC = () => {
+  const { user, signOut } = useAppStore();
 
-export function ProfileScreen({ user, onBack }: ProfileScreenProps) {
-  const nextLevelXP = user.level * 1000;
-  const currentXP = user.skillPoints % 1000;
-  const progressToNextLevel = (currentXP / nextLevelXP) * 100;
+  if (!user) return null;
+
+  const avatarIcon = baseAvatars.find(a => a.id === user.avatar.base)?.icon || '👤';
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="p-6">
-        <div className="flex items-center mb-6">
-          <Button variant="ghost" size="sm" onClick={onBack}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
+    <Screen>
+      <GamifiedCard className="text-center mb-8">
+        <div className="w-28 h-28 rounded-full bg-muted p-2 mx-auto mb-4 text-6xl flex items-center justify-center border-4 border-primary">
+          {avatarIcon}
         </div>
+        <h1 className="text-3xl font-bold text-white">{user.name}</h1>
+        <p className="text-muted-foreground">Joined: {new Date(user.createdAt).toLocaleDateString()}</p>
+        <div className="mt-4 px-4">
+          <LevelBar level={user.level} xp={user.xp % 100} xpForNextLevel={100} />
+        </div>
+      </GamifiedCard>
 
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
-        >
-          <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-4xl">{user.avatar}</span>
+      <GamifiedCard className="mb-6">
+        <h2 className="font-display text-3xl text-primary text-glow mb-4">Career Stats</h2>
+        <div className="grid grid-cols-3 gap-4 text-center">
+          <div className="bg-muted/50 p-4 rounded-lg">
+            <BarChart className="mx-auto mb-2 text-secondary" />
+            <div className="text-2xl font-bold text-white">{user.totalAssessments}</div>
+            <div className="text-sm text-muted-foreground">Tests</div>
           </div>
-          <h2 className="text-2xl font-bold mb-1">{user.name}</h2>
-          <p className="text-muted-foreground mb-2">Level {user.level} Athlete</p>
-          <Badge className="bg-primary/20 text-primary">
-            {user.primarySport.icon} {user.primarySport.name}
-          </Badge>
-        </motion.div>
-
-        <div className="max-w-2xl mx-auto space-y-6">
-          {/* Stats Overview */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <Card className="p-6">
-              <h3 className="font-bold mb-4">Stats Overview</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center p-4 bg-primary/10 rounded-lg">
-                  <Zap className="w-8 h-8 mx-auto mb-2 text-primary" />
-                  <div className="text-2xl font-bold">{user.skillPoints}</div>
-                  <div className="text-sm text-muted-foreground">Skill Points</div>
-                </div>
-                <div className="text-center p-4 bg-secondary/10 rounded-lg">
-                  <Coins className="w-8 h-8 mx-auto mb-2 text-secondary" />
-                  <div className="text-2xl font-bold">{user.coins}</div>
-                  <div className="text-sm text-muted-foreground">Coins</div>
-                </div>
-                <div className="text-center p-4 bg-accent/10 rounded-lg">
-                  <Calendar className="w-8 h-8 mx-auto mb-2 text-accent" />
-                  <div className="text-2xl font-bold">{user.streakDays}</div>
-                  <div className="text-sm text-muted-foreground">Day Streak</div>
-                </div>
-                <div className="text-center p-4 bg-card rounded-lg border">
-                  <Trophy className="w-8 h-8 mx-auto mb-2 text-foreground" />
-                  <div className="text-2xl font-bold">{user.badges.length}</div>
-                  <div className="text-sm text-muted-foreground">Badges</div>
-                </div>
-              </div>
-            </Card>
-          </motion.div>
-
-          {/* Level Progress */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <Card className="p-6">
-              <h3 className="font-bold mb-4">Level Progress</h3>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">Level {user.level}</span>
-                <span className="text-sm text-muted-foreground">
-                  {currentXP}/{nextLevelXP} XP
-                </span>
-              </div>
-              <Progress value={progressToNextLevel} className="h-3" />
-              <p className="text-xs text-muted-foreground mt-2">
-                {nextLevelXP - currentXP} XP to next level
-              </p>
-            </Card>
-          </motion.div>
-
-          {/* Selected Sports */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <Card className="p-6">
-              <h3 className="font-bold mb-4">Your Sports</h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {user.selectedSports.map((sport, index) => (
-                  <motion.div
-                    key={sport.id}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.1 * index }}
-                    className={`p-3 rounded-lg border text-center ${
-                      sport.id === user.primarySport.id 
-                        ? 'bg-primary/10 border-primary/30' 
-                        : 'bg-card'
-                    }`}
-                  >
-                    <div className="text-2xl mb-2">{sport.icon}</div>
-                    <div className="text-sm font-medium">{sport.name}</div>
-                    {sport.id === user.primarySport.id && (
-                      <Badge variant="outline" className="mt-1 text-xs">
-                        Primary
-                      </Badge>
-                    )}
-                  </motion.div>
-                ))}
-              </div>
-            </Card>
-          </motion.div>
-
-          {/* Account Info */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <Card className="p-6">
-              <h3 className="font-bold mb-4">Account Information</h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between py-2 border-b border-border/50">
-                  <span className="text-sm text-muted-foreground">User ID</span>
-                  <span className="font-mono text-sm">{user.id}</span>
-                </div>
-                <div className="flex items-center justify-between py-2 border-b border-border/50">
-                  <span className="text-sm text-muted-foreground">ABHA ID</span>
-                  <span className="text-sm">
-                    {user.abhaId || 'Not linked'}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between py-2">
-                  <span className="text-sm text-muted-foreground">Member Since</span>
-                  <span className="text-sm">
-                    {user.createdAt.toLocaleDateString()}
-                  </span>
-                </div>
-              </div>
-            </Card>
-          </motion.div>
-
-          {/* Badges */}
-          {user.badges.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-            >
-              <Card className="p-6">
-                <h3 className="font-bold mb-4">Achievements</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {user.badges.map((badge, index) => (
-                    <motion.div
-                      key={badge.id}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.1 * index }}
-                      className="text-center p-3 bg-card rounded-lg border"
-                    >
-                      <div className="text-3xl mb-2">{badge.icon}</div>
-                      <div className="text-sm font-medium">{badge.name}</div>
-                      <Badge 
-                        variant="outline" 
-                        className={`mt-1 text-xs ${
-                          badge.rarity === 'legendary' ? 'border-yellow-500 text-yellow-700' :
-                          badge.rarity === 'epic' ? 'border-purple-500 text-purple-700' :
-                          badge.rarity === 'rare' ? 'border-blue-500 text-blue-700' :
-                          'border-gray-500 text-gray-700'
-                        }`}
-                      >
-                        {badge.rarity}
-                      </Badge>
-                    </motion.div>
-                  ))}
-                </div>
-              </Card>
-            </motion.div>
-          )}
+          <div className="bg-muted/50 p-4 rounded-lg">
+            <Flame className="mx-auto mb-2 text-orange-500" />
+            <div className="text-2xl font-bold text-white">{user.streakDays}</div>
+            <div className="text-sm text-muted-foreground">Streak</div>
+          </div>
+          <div className="bg-muted/50 p-4 rounded-lg">
+            <Award className="mx-auto mb-2 text-yellow-400" />
+            <div className="text-2xl font-bold text-white">{user.badges.length}</div>
+            <div className="text-sm text-muted-foreground">Badges</div>
+          </div>
         </div>
-      </div>
-    </div>
+      </GamifiedCard>
+      
+      <GamifiedCard className="mb-6">
+        <h2 className="font-display text-3xl text-primary text-glow mb-4">Unlocked Badges</h2>
+        <div className="flex flex-wrap gap-4">
+          {badges.map(badge => (
+            <div key={badge.id} title={badge.name} className={`text-center p-2 rounded-lg transition-all ${user.badges.includes(badge.id) ? 'grayscale-0' : 'grayscale opacity-40'}`}>
+              <div className="text-5xl">{badge.icon}</div>
+            </div>
+          ))}
+        </div>
+      </GamifiedCard>
+
+      <GamifiedButton onClick={signOut} className="w-full !bg-destructive/50 !border-destructive">
+        Sign Out & Clear Data
+      </GamifiedButton>
+    </Screen>
   );
-}
+};

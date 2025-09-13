@@ -10,24 +10,16 @@ export default {
     theme: {
       extend: {
         fontFamily: {
-          roboto: ['Roboto', 'sans-serif'],
-        },
-        borderRadius: {
-          lg: 'var(--radius)',
-          md: 'calc(var(--radius) - 2px)',
-          sm: 'calc(var(--radius) - 4px)',
+          sans: ['"Inter"', 'sans-serif'],
+          display: ['"Exo 2"', 'sans-serif'],
         },
         colors: {
           background: 'hsl(var(--background))',
           foreground: 'hsl(var(--foreground))',
-          card: {
-            DEFAULT: 'hsl(var(--card))',
-            foreground: 'hsl(var(--card-foreground))',
-          },
-          popover: {
-            DEFAULT: 'hsl(var(--popover))',
-            foreground: 'hsl(var(--popover-foreground))',
-          },
+          card: 'hsl(var(--card))',
+          'card-foreground': 'hsl(var(--card-foreground))',
+          popover: 'hsl(var(--popover))',
+          'popover-foreground': 'hsl(var(--popover-foreground))',
           primary: {
             DEFAULT: 'hsl(var(--primary))',
             foreground: 'hsl(var(--primary-foreground))',
@@ -51,50 +43,38 @@ export default {
           border: 'hsl(var(--border))',
           input: 'hsl(var(--input))',
           ring: 'hsl(var(--ring))',
-          chart: {
-            1: 'hsl(var(--chart-1))',
-            2: 'hsl(var(--chart-2))',
-            3: 'hsl(var(--chart-3))',
-            4: 'hsl(var(--chart-4))',
-            5: 'hsl(var(--chart-5))',
-          },
+          xp: 'hsl(var(--xp))',
+          coin: 'hsl(var(--coin))',
+          'brand-purple': 'hsl(var(--brand-purple))',
+          'brand-cyan': 'hsl(var(--brand-cyan))',
+        },
+        borderRadius: {
+          lg: `var(--radius)`,
+          md: `calc(var(--radius) - 4px)`,
+          sm: `calc(var(--radius) - 8px)`,
         },
         keyframes: {
-          'accordion-down': {
-            from: {
-              height: '0',
-            },
-            to: {
-              height: 'var(--radix-accordion-content-height)',
-            },
+          'fade-in': { from: { opacity: 0 }, to: { opacity: 1 } },
+          'fade-in-up': { from: { opacity: 0, transform: 'translateY(20px)' }, to: { opacity: 1, transform: 'translateY(0)' } },
+          'pulse-glow': {
+            '0%, 100%': { boxShadow: '0 0 15px hsl(var(--primary)), 0 0 5px hsl(var(--primary))' },
+            '50%': { boxShadow: '0 0 30px hsl(var(--primary)), 0 0 10px hsl(var(--primary))' },
           },
-          'accordion-up': {
-            from: {
-              height: 'var(--radix-accordion-content-height)',
-            },
-            to: {
-              height: '0',
-            },
+          'background-pan': {
+            '0%': { backgroundPosition: '0% 50%' },
+            '50%': { backgroundPosition: '100% 50%' },
+            '100%': { backgroundPosition: '0% 50%' },
           },
-          'bounce-ball': {
-            '0%, 100%': { transform: 'translateY(0)' },
-            '50%': { transform: 'translateY(-20px)' },
-          },
-          'fade-in': {
-            '0%': { opacity: '0', transform: 'translateY(20px)' },
-            '100%': { opacity: '1', transform: 'translateY(0)' },
-          },
-          'scale-up': {
-            '0%': { transform: 'scale(0.8)' },
-            '100%': { transform: 'scale(1)' },
+          'border-spin': {
+            '100%': { transform: 'rotate(360deg)' },
           },
         },
         animation: {
-          'accordion-down': 'accordion-down 0.2s ease-out',
-          'accordion-up': 'accordion-up 0.2s ease-out',
-          'bounce-ball': 'bounce-ball 1s ease-in-out infinite',
-          'fade-in': 'fade-in 0.5s ease-out',
-          'scale-up': 'scale-up 0.3s ease-out',
+          'fade-in': 'fade-in 0.5s ease-out forwards',
+          'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
+          'pulse-glow': 'pulse-glow 2s infinite ease-in-out',
+          'background-pan': 'background-pan 15s linear infinite',
+          'border-spin': 'border-spin 7s linear infinite',
         },
       },
     },
